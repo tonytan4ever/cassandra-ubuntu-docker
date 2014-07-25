@@ -19,14 +19,13 @@ RUN rm /tmp/oracle-license-debconf
 
 # Install the JDK
 RUN apt-get install -y oracle-java7-installer oracle-java7-set-default
-RUN apt-get update
 
 # Install other packages
-RUN apt-get install -y curl
 RUN apt-get install -y openssh-server openssh-client
 RUN apt-get install -y supervisor sysstat
 
 # Install Cassandra
+RUN apt-get install -y curl
 RUN echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/datastax.sources.list
 RUN curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
 RUN apt-get update
@@ -34,7 +33,7 @@ RUN apt-get install -y dsc20
 
 # Configure SSH server
 RUN mkdir -p /var/run/sshd && chmod -rx /var/run/sshd
-RUN ssh-keygen -t rsa -N '' -f /etc/ssh/ssh_host_rsa_key
+RUN bash -c "echo -e 'y\n' | ssh-keygen -t rsa -N '' -f /etc/ssh/ssh_host_rsa_key"
 RUN sed -ri 's/#PermitRootLogin yes/PermitRootLogin yes/g' /etc/ssh/sshd_config
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 RUN sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
