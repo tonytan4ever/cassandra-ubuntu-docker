@@ -39,8 +39,8 @@ RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 RUN sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
 
 # Create OpsCenter account
-RUN useradd -m -G users,root -p $(openssl passwd -1 "opscenter") opscenter
-RUN echo "%root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+RUN useradd -m adm,sudo -p $(openssl passwd -1 "opscenter") opscenter
+RUN echo "opscenter ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Configure supervisord
 ADD src/supervisord.conf /etc/supervisord.conf
@@ -48,6 +48,7 @@ RUN mkdir -p /var/log/supervisor
 
 # Deploy startup script
 ADD src/start.sh /usr/local/bin/start
+RUN chmod 755 /usr/local/bin/start
 
 # Necessary since cassandra is trying to override the system limitations
 # See https://groups.google.com/forum/#!msg/docker-dev/8TM_jLGpRKU/dewIQhcs7oAJ

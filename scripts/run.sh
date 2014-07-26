@@ -4,7 +4,7 @@ cd $(dirname $0)
 
 HOW_MANY=${1}
 PREFIX=${2-cass}
-IMAGE=${3-poklet/cassandra}
+IMAGE=${3-tonytan4ever/cassandra-on-ubuntu}
 
 if [[ ${#@} = 0 ]]; then
   echo Runs multiple Cassandra containers

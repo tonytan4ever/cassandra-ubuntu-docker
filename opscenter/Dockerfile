@@ -17,6 +17,7 @@ RUN apt-get install -y openssh-client
 RUN apt-get install -y opscenter 
 
 ADD src/start.sh /usr/local/bin/start
+RUN chmod 755 /usr/local/bin/start
 
 # See http://www.datastax.com/documentation/opscenter/4.0/opsc/reference/opscPorts_r.html
 EXPOSE 8888 61620 50031
